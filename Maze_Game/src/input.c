@@ -3,15 +3,24 @@
 #include <stdbool.h>
 #include <math.h>
 
-// Defining speed for camera and player movement
+/*
+ * Defining speed for camera and player movement
+ */
+
 #define MOVE_SPEED 0.1f
 
-// Global variables for camera position and direction
-double cameraX = 0.0; // Initial X position
-double cameraY = 0.0; // Initial Y position
-double cameraAngle = 0.0; // Initial camera angle (in radians)
+/*
+ * Global variables for camera position and direction
+ */
 
-// Global variables for player position and direction
+double cameraX = 0.0; /* Initial X position */
+double cameraY = 0.0; /* Initial Y position*/
+double cameraAngle = 0.0; /* Initial camera angle (in radians)*/
+
+/*
+ * Global variables for player position and direction
+ */
+
 double playerX;
 double playerY;
 double playerAngle;
@@ -47,14 +56,10 @@ void handleInput(SDL_Event* event) {
         case SDLK_DOWN:
             playerAngle += 0.1f;
             break;
-        }
-    }
-}
-void handleInput(SDL_Event * event) {
-    if (event->type == SDL_KEYDOWN) {
+	}
         switch (event->key.keysym.sym) {
         case SDLK_LEFT:
-            cameraAngle -= 0.05; // Adjust rotation angle (e.g., 5 degrees)
+            cameraAngle -= 0.05; /*Adjust rotation angle (e.g., 5 degrees)*/
             break;
         case SDLK_RIGHT:
             cameraAngle += 0.05;
