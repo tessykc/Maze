@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_render.h>
 #include "maze.h"
@@ -46,38 +47,6 @@ int initialize_window(void) {
     return TRUE;
 }
 
-void process_input(void) {
-    SDL_Event event;
-    SDL_PollEvent(&event);
-
-    switch (event.type) {
-        case SDL_QUIT:
-            game_up = FALSE;
-            break;
-        case SDL_KEYDOWN:
-            if (event.key.keysym.sym == SDLK_ESCAPE)
-                game_up = FALSE;
-            break;
-        default:
-            break;
-    }
-}
-
-void setup(void) {
-    ball.x = 20;
-    ball.y = 20;
-    ball.width = 15;
-    ball.height = 15;
-}
-
-void update(void) {
-    float delta_time = (SDL_GetTicks() - last_frame_time) / 1000.0f;
-    last_frame_time = SDL_GetTicks();
-
-    ball.x += 30 * delta_time;
-    ball.y += 40 * delta_time;
-}
-
 void render(void) {
     SDL_Rect ball_rect;
 
@@ -102,15 +71,47 @@ void destroy_window(void) {
 }
 
 int main(void) {
+    char input; 
+    char maze[5]; /* Declare the array without initializing it here */
+    int i; /* Declare the loop counter variable here */
+
+    /* Initialize the maze array */
+    maze[0] = 'N';
+    maze[1] = 'S';
+    maze[2] = 'E';
+    maze[3] = 'W';
+    maze[4] = 'N';
+
     game_up = initialize_window();
 
     setup();
+    
 
     while (game_up) {
         process_input();
         update();
         render();
+        input = getchar();
+        moveCamera(input);
+        /*
+        * Rotate camera based on arrow key input
+        */
+        if (input == 'L') { /* Left arrow key */ 
+            rotateCamera('L');
+        } else if (input == 'R') { /* Right arrow key */
+            rotateCamera('R');
+        }
     }
+
+            
+    /*
+    * Render the maze
+    */
+    for (i = 0; i < 5; i++) {
+        setWallColor(maze[i]);
+    }
+    
+    return 0;
 
     destroy_window();
 
